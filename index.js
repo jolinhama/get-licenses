@@ -26,6 +26,8 @@ if(!fs.existsSync(destDir)) {
 
 var currentSource;
 
+var licenseFilePattern = ['LICENSE','LICENSE.md','package.json','bower.json'];
+
 for(var i = 0, len1 = sourceDir.length; i < len1; i++) {
   currentSource = sourceDir[i];
 
@@ -40,24 +42,10 @@ for(var i = 0, len1 = sourceDir.length; i < len1; i++) {
 
       fileName = destDir + files[y];
 
-      if(fs.existsSync(path + '/LICENSE')) {
-
-        fs.createReadStream(path + '/LICENSE')
-          .pipe(fs.createWriteStream(fileName));
-
-      }
-      else if(fs.existsSync(path + '/package.json')) {
-
-        fs.createReadStream(path + '/package.json')
-          .pipe(fs.createWriteStream(fileName));
-
-      }
-      else if(fs.existsSync(path + '/bower.json')) {
-
-        fs.createReadStream(path + '/bower.json')
-          .pipe(fs.createWriteStream(fileName));
-
-      }
+      licenseFilePattern.forEach(function (item, index) {
+        fs.createReadStream(path + '/${item}')
+            .pipe(fs.createWriteStream(fileName));
+      });
     }
   });
 }
