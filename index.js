@@ -25,7 +25,7 @@ if(!fs.existsSync(destDir)) {
 // Grab of the file name from the specified directory and search for the license information
 
 var currentSource;
-var licenseFilePatterns = ['LICENSE','LICENSE.md','package.json','bower.json'];
+var licenseFilePatterns = ['LICENSE','LICENSE.md','license.txt','package.json','bower.json'];
 
 for(var i = 0, len1 = sourceDir.length; i < len1; i++) {
   currentSource = sourceDir[i];
