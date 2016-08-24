@@ -38,13 +38,14 @@ for(var i = 0, len1 = sourceDir.length; i < len1; i++) {
       path = './' + currentSource + '/' + files[y];
       fileName = destDir + files[y];
 
-      licenseFilePatterns.forEach(function (licensePattern) {
+      licenseFilePatterns.every(function (licensePattern) {
         var patternFilePath = path + '/' + licensePattern;
+        console.log(licensePattern);
         try {
           fs.accessSync(patternFilePath);
           fs.createReadStream(patternFilePath)
               .pipe(fs.createWriteStream(fileName));
-          return;
+          return false;
         }
         catch(e) {}
      });
