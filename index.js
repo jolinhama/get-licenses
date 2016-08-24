@@ -38,12 +38,13 @@ for(var i = 0, len1 = sourceDir.length; i < len1; i++) {
       path = './' + currentSource + '/' + files[y];
       fileName = destDir + files[y];
 
-      licenseFilePatterns.forEach(function (item, index) {
-          var patternFile = path + '/' + item;
+      licenseFilePatterns.forEach(function (licensePattern) {
+        var patternFilePath = path + '/' + licensePattern;
         try {
-          fs.accessSync(patternFile);
-          fs.createReadStream(path + '/' + item)
+          fs.accessSync(patternFilePath);
+          fs.createReadStream(patternFilePath)
               .pipe(fs.createWriteStream(fileName));
+          return;
         }
         catch(e) {}
      });
