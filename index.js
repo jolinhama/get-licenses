@@ -42,9 +42,10 @@ for(var i = 0, len1 = sourceDir.length; i < len1; i++) {
         var patternFilePath = path + '/' + licensePattern;
         try {
           fs.accessSync(patternFilePath);
-          console.log("Source [" + patternFilePath + " ==> Target [" + fileName + "]");
           fs.createReadStream(patternFilePath)
               .pipe(fs.createWriteStream(fileName));
+
+          console.log(files[y] + " ==> " + licensePattern);
           return false;
         }
         catch(e) {}
