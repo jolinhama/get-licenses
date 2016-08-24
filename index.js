@@ -25,28 +25,30 @@ if(!fs.existsSync(destDir)) {
 // Grab of the file name from the specified directory and search for the license information
 
 var currentSource;
-
-var licenseFilePattern = ['LICENSE','LICENSE.md','package.json','bower.json'];
+var licenseFilePatterns = ['LICENSE','LICENSE.md','package.json','bower.json'];
 
 for(var i = 0, len1 = sourceDir.length; i < len1; i++) {
   currentSource = sourceDir[i];
 
-  fs.readdir('./' + currentSource + '/', function(err, data) {
+  fs.readdir('./' + currentSource + '/', function(err, files) {
     if (err) throw err;
-
-    var files = data; // {array} list of the found directories
 
     // loop over each file
     for(var y = 0, len2 = files.length; y < len2; y++) {
       path = './' + currentSource + '/' + files[y];
-
       fileName = destDir + files[y];
 
-      licenseFilePattern.forEach(function (item, index) {
-        fs.createReadStream(path + '/${item}')
-            .pipe(fs.createWriteStream(fileName));
-      });
+      licenseFilePatterns.forEach(function (item, index) {
+          var patternFile = path + '/' + item;
+        try {
+          fs.accessSync(patternFile);
+          fs.createReadStream(path + '/' + item)
+              .pipe(fs.createWriteStream(fileName));
+        }
+        catch(e) {}
+     });
     }
   });
 }
+
 
